@@ -6,11 +6,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
-@Configuration
-public class ProjectConfig {
-
-    @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource){
-        return new JdbcTemplate(dataSource);
-    }
-}
+//@Configuration
+//public class ProjectConfig {
+//
+//    @Bean
+//    public JdbcTemplate jdbcTemplate(DataSource dataSource){
+//        return new JdbcTemplate(dataSource);
+//    }
+//}
