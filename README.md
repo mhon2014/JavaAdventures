@@ -1,2 +1,2 @@
 # JavaAdventures
-Repository containing my adventures in learning fundamentals and basics with java.
+Repository containing my adventures in learning fundamentals and basics with Java and Spring Boot!
