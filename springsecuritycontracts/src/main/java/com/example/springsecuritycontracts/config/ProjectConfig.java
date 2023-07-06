@@ -1,5 +1,7 @@
 package com.example.springsecuritycontracts.config;
 
+import com.example.springsecuritycontracts.security.AppUserDetailsManager;
+import com.example.springsecuritycontracts.security.PlainTextPasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,11 +25,13 @@ public class ProjectConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
+        return new PlainTextPasswordEncoder();
     }
     @Bean
     public UserDetailsService userDetailsService(){
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+//        AppUserDetailsManager manager = new AppUserDetailsManager();
+//        manager.createUser(new com.example.springsecuritycontracts.security.User("John", "12345"));
 
         UserDetails u1 = User.withUsername("bill")
                                 .password("12345")
@@ -49,12 +53,15 @@ public class ProjectConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        http.formLogin(withDefaults());
         http
-                .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(HttpMethod.POST).hasAuthority("read")
-                        .requestMatchers(HttpMethod.GET).hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET).hasAuthority("read")
-                        .anyRequest().permitAll()
+                .authorizeHttpRequests(
+                        (authz) -> authz.anyRequest().authenticated()
+//                        .requestMatchers(HttpMethod.POST).hasAuthority("read")
+//                        .requestMatchers(HttpMethod.GET).hasRole("ADMIN")
+//                        .requestMatchers(HttpMethod.GET).permitAll()
+//                        .requestMatchers("/error").permitAll()
+
                 );
         http.httpBasic(withDefaults());
         return http.build();
